@@ -31,6 +31,7 @@ Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.
 
 //CSV Export For Post
 Route::get('/export-post', [PostController::class, 'exportPost'])->name('export-post');
+
 //CSV Import For Post
 Route::post('/import-post', [PostController::class, 'importPost'])->name('import-post');
 //Route for Categories

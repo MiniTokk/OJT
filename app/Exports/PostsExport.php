@@ -43,7 +43,7 @@ class PostsExport implements FromCollection,WithHeadings,WithMapping
          ];
     }
     public function collection()
-    { 
-        return Post::all();
+    {
+        return collect(Post::getAllPosts());
     }
 }

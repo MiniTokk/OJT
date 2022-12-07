@@ -3,7 +3,6 @@
 namespace App\Imports;
 
 use App\Models\Post;
-use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 
 class PostsImport implements ToModel
@@ -20,6 +19,7 @@ class PostsImport implements ToModel
             'description'=>$row[1],
             'status'=>$row[2],
             'category'=>$row[3],
+
         ]);
     }
 }

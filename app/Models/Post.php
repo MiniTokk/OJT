@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
@@ -18,5 +19,12 @@ class Post extends Model
     ];
     public function categories() {
         return $this->belongsToMany(Category::class,'category_posts','post_id','category_id')->withTimestamps();
+    }
+
+    public static function getAllPosts(){
+        $result = DB::table('posts')
+            ->select('id', 'name', 'email')
+            ->get()->toArray();
+        return $result;
     }
 }
