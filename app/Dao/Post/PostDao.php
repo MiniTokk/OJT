@@ -4,6 +4,10 @@ namespace App\Dao\Post;
 
 use App\Models\Post;
 use App\Models\Category;
+use App\Exports\PostsExport;
+use App\Imports\PostsImport;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Contracts\Dao\Post\PostDaoInterface;
 
 class PostDao implements PostDaoInterface
@@ -66,7 +70,7 @@ class PostDao implements PostDaoInterface
         'description'=>$request->description,
         'status'=>$request->status
        ]);
-       $post->categories()->detach($post->categories);
+       $post->categories()->detach();
        $post->categories()->attach($request->category);
        return $post;
     }
@@ -79,5 +83,26 @@ class PostDao implements PostDaoInterface
     public function destroy(Post $post)
     {
         return $post->delete();
+    }
+     /**
+     * Download CSV File
+     * @param \App\Models\Post $post
+     * @param mixed $request
+     * @return \Maatwebsite\Excel\Excel
+     */
+    public function exportPost(Post $post)
+    {
+        return Excel::download(new PostsExport, 'Post' . now() . '.csv');
+    }
+
+    /**
+     * Upload CSV File
+     * @param \App\Models\Post $post
+     * @param mixed $request
+     * @return \Maatwebsite\Excel\Excel
+     */
+    public function importPost(Request $request)
+    {
+        return Excel::import(new PostsImport, $request->file('file'));
     }
 }

@@ -4,53 +4,36 @@
     POST LIST
 @endsection
 @section('content')
-    <h2 class="text-center">Post Lists</h2>
-    <b-row>
-        <b-col class="ml-3">
-            <input type="text">
-        </b-col>
-        <b-col>
-            <button type="submit" class="btn btn-primary ml-5">
-                <a class="text-white"> Search</a>
-            </button>
-        </b-col>
-        <b-col>
-            <button type="submit" class="btn btn-primary ml-5">
-                <a class="text-white" href="{{ route('posts.create') }}"> Add</a>
-            </button>
-        </b-col>
-        <b-col>
-            <button type="submit" class="btn btn-primary ml-5">
-                <a class="text-white"> Download</a>
-            </button>
-        </b-col>
-    </b-row>
+    <div class="row mt-3">
+        <div class="col-sm-6">
+            <form method="POST" enctype="multipart/form-data" action="{{ route('import-post') }}">
+                @csrf
+                <label class="text-primary">Choose File To Upload!</label>
+                <input type="file" name="file" class="form-control" />
+                <div class="mt-3">
+                    <input type="submit" class="btn btn-primary text-white" name="Upload" disabled />
+                    <button type="submit" class="btn btn-primary float-right"><a class="text-white"
+                            href="{{ route('export-post') }}">Download
+                            CSV</a></button>
+                </div>
+            </form>
+        </div>
+    </div>
     @if ($message = Session::get('success'))
         <div class="alert alert-info text-success alert-dismissible fade show" role="alert">
             {{ $message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+    <div class="position-absolute top-30 start-50">
+        <button type="submit" class="btn btn-primary ml-5">
+            <a class="text-white" href="{{ route('posts.create') }}"> Add Post</a>
+        </button>
+    </div>
     <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
-                <h2>Post Data: </h2>
-                <form class method="POST" enctype="multipart/form-data" action="{{ route('import-post') }}">
-                    @csrf
-                    <label>Select File</label>
-                    <input type="file" name="file" class="form-control"/>
-                   
-                    
-                    <div class="mt-5">
-                        <input type="submit" disabled/>
-                        <button type="submit" class="btn btn-info float-right"><a href="{{ route('export-post') }}">Export
-                                Excel</a></button>
-                    </div>
-                </form>
-            </div>
-        </div>
         <div class="panel panel-default mt-5">
             <div class="panel-body">
+                <h2>Post Lists</h2>
                 <table class="table-latitude">
                     <thead>
                         <th>Post Title </th>
@@ -70,6 +53,9 @@
                                 <td>
                                     @foreach ($post->categories as $category)
                                         {{ $category->name }}
+                                        @if (!$loop->last)
+                                            ,<br>
+                                        @endif
                                     @endforeach
                                 </td>
                                 <td>{{ $post->created_at->format('d/m/Y') }}</td>
@@ -96,17 +82,17 @@
         </div>
     @endsection
     <script type="text/javascript">
-                $(document).ready(
-        function(){
-            $('input:submit').attr('disabled',true);
-            $('input:file').change(
-                function(){
-                    if ($(this).val()){
-                        $('input:submit').removeAttr('disabled'); 
-                    }
-                    else {
-                        $('input:submit').attr('disabled',true);
-                    }
-                });
-        });
-            </script>
+        $(document).ready(
+            function() {
+                $('input:submit').attr('disabled', true);
+                $('input:file').change(
+                    function() {
+                        if ($(this).val()) {
+                            $('input:submit').removeAttr('disabled');
+                        } else {
+                            $('input:submit').attr('disabled', true);
+                        }
+                    });
+            });
+    </script>
+    

@@ -1,3 +1,4 @@
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.0.js"></script>
 @extends('posts.layout')
 @section('title')
 CREATE POST
@@ -53,7 +54,7 @@ CREATE POST
             </div>
             <h3 class="text-primary mt-3">Choose Category</h3>
                 <div>
-                    <select class="form-select mt-3" multiple aria-label="size 3" name="category[]" multiple>
+                    <select class="form-select mt-3" id="multiselect" multiple aria-label="size 3"  name="category[]" multiple="multiple" size='4'>
                         <option></option>
                         @foreach ($categories as $category)
                             @if ($loop->index === 0)
@@ -71,3 +72,13 @@ CREATE POST
         
     </form>
 @endsection
+<script type="text/javascript">
+        $(document).ready(function() {
+            $('#multiselect').multiselect({
+                buttonWidth: '100%'
+            });
+        //caret is in the middle, switch it to right
+        $(".caret").css('float', 'right');
+        $(".caret").css('margin', '8px 0');
+        });
+    </script>

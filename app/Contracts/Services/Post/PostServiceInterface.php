@@ -45,4 +45,18 @@ interface PostServiceInterface
      * @param  \App\Models\Post $post
      */
     public function destroy(Post $post);
+/**
+     * Download CSV File
+     * @param \App\Models\Post $post
+     * @return mixed
+     */
+    public function exportPost(Post $post);
+
+    /**
+     * Upload CSV File
+     * @param \App\Models\Post $post
+     * @param \Illuminate\Http\Request $request
+     * @return mixed
+     */
+    public function importPost(Request $request);
 }

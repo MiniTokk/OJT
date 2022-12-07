@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +17,14 @@ use App\Http\Controllers\CategoryController;
 */
 
 Route::get('/', function () {
-    return redirect('/posts');
+    return redirect('/login');
 });
+Route::get('dashboard', [CustomAuthController::class, 'dashboard']);
+Route::get('login', [CustomAuthController::class, 'index'])->name('login');
+Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom');
+Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
+Route::post('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom');
+Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
 
 //Route for Posts
 //Route::resource('posts', PostController::class);
@@ -42,4 +49,3 @@ Route::get('/categories/{category}', [CategoryController::class, 'show'])->name(
 Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
 Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
 Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-

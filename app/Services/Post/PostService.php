@@ -73,4 +73,25 @@ class PostService implements PostServiceInterface
     {
         return $this->postDao->destroy($post);
     }
+      /**
+     * Download CSV File
+     *
+     * @param \App\Models\Post $post
+     * @return \Illuminate\Http\Response
+     */
+    public function exportPost(Post $post)
+    {
+        return $this->postDao->exportPost($post);
+    }
+
+    /**
+     * Upload CSV File
+     *@param \App\Models\Post $post
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function importPost(Request $request)
+    {
+        return $this->postDao->importPost($request);
+    }
 }
