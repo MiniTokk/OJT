@@ -1,9 +1,10 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,15 +20,15 @@ use App\Http\Controllers\CustomAuthController;
 Route::get('/', function () {
     return redirect('/login');
 });
-Route::get('dashboard', [CustomAuthController::class, 'dashboard']);
-Route::get('login', [CustomAuthController::class, 'index'])->name('login');
-Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom');
-Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
-Route::post('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom');
-Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
+
+//Route For Register And Login
+Route::get('login', [AuthController::class, 'index'])->name('login');
+Route::post('custom-login', [AuthController::class, 'customLogin'])->name('login.custom');
+Route::get('registration', [AuthController::class, 'registration'])->name('register-user');
+Route::post('custom-registration', [AuthController::class, 'registerToCreateUser'])->name('register.custom');
+Route::get('signout', [AuthController::class, 'signOut'])->name('signout');
 
 //Route for Posts
-//Route::resource('posts', PostController::class);
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
@@ -38,9 +39,9 @@ Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.
 
 //CSV Export For Post
 Route::get('/export-post', [PostController::class, 'exportPost'])->name('export-post');
-
 //CSV Import For Post
 Route::post('/import-post', [PostController::class, 'importPost'])->name('import-post');
+
 //Route for Categories
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
